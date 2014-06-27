@@ -1,5 +1,6 @@
 out/
 client.iml
+google-play-services_lib/
 
 # built application files
 *.apk
