@@ -7,7 +7,12 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -17,25 +22,19 @@ import com.scubbo.mtgMatcher.R;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class MyActivity extends Activity {
+public class MainActivity extends Activity {
     // Blame http://developer.android.com/google/gcm/client.html
 
-    public static final String EXTRA_MESSAGE = "message";
     public static final String PROPERTY_REG_ID = "registration_id";
     private static final String PROPERTY_APP_VERSION = "appVersion";
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
     String SENDER_ID = "489299332194";
 
-    /**
-     * Tag used on log messages.
-     */
     static final String TAG = "GCMDemo";
 
     TextView mDisplay;
     GoogleCloudMessaging gcm;
-    AtomicInteger msgId = new AtomicInteger();
-    SharedPreferences prefs;
     Context context;
 
     String regid;
@@ -57,9 +56,13 @@ public class MyActivity extends Activity {
             regid = getRegistrationId(context);
 
             if (regid.isEmpty()) {
+                Log.i(TAG,"regid was empty");
+                LinearLayout nameEntryDiv = (LinearLayout) findViewById(R.id.nameEntryDiv);
+                nameEntryDiv.setVisibility(View.VISIBLE);
                 registerInBackground();
+            } else {
+                Log.i(TAG,"regid was not empty");
             }
-            Log.i(TAG, "regid is " + regid);
         } else {
             mDisplay.setText("you do not have play services");
         }
@@ -126,7 +129,7 @@ public class MyActivity extends Activity {
     private SharedPreferences getGCMPreferences(Context context) {
         // This sample app persists the registration ID in shared preferences, but
         // how you store the regID in your app is up to you.
-        return getSharedPreferences(MyActivity.class.getSimpleName(),
+        return getSharedPreferences(MainActivity.class.getSimpleName(),
                 Context.MODE_PRIVATE);
     }
 

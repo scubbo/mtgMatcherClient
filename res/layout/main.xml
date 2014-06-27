@@ -7,8 +7,28 @@
     <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Hello World, MyActivity"
+            android:text="Hello and welcome to mtgMatcher"
             />
+
+    <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="invisible"
+            android:id="@+id/nameEntryDiv">
+        <EditText
+            android:layout_alignParentLeft="true"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Please enter your name"
+            android:id="@+id/nameEntry"/>
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:text="Go!"/>
+     </LinearLayout>
+
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
