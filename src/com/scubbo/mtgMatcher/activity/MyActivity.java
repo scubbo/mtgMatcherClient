@@ -54,17 +54,10 @@ public class MyActivity extends Activity {
 
         if (checkPlayServices()) {
             gcm = GoogleCloudMessaging.getInstance(this);
-            //regid = getRegistrationId(context);
-            regid = "";
+            regid = getRegistrationId(context);
 
-            Log.i(TAG, "1");
             if (regid.isEmpty()) {
-                Log.i(TAG, "2");
                 registerInBackground();
-                Log.i(TAG, "3");
-            } else {
-                Log.i(TAG, "4");
-                Log.i(TAG, "regid is " + regid);
             }
             Log.i(TAG, "regid is " + regid);
         } else {
