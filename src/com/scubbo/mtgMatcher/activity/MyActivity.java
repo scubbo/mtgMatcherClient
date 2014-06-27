@@ -1,4 +1,4 @@
-package com.scubbo.mtgMatcher;
+package com.scubbo.mtgMatcher.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,8 +11,8 @@ import android.util.Log;
 import android.widget.TextView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.common.api.Result;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.scubbo.mtgMatcher.R;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
