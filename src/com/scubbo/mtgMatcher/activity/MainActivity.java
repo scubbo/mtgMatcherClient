@@ -18,8 +18,11 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.scubbo.mtgMatcher.R;
+import com.scubbo.mtgMatcher.http.HttpWrapper;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainActivity extends Activity {
@@ -63,6 +66,21 @@ public class MainActivity extends Activity {
             } else {
                 Log.i(TAG,"regid was not empty");
             }
+            while (regid.isEmpty()) {
+                Log.i(TAG,"waiting for regid to be not empty...");
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            HttpWrapper httpWrapper = new HttpWrapper();
+            Map<String, String> options = new HashMap<String, String>();
+            options.put("username","testUsername456");
+            options.put("dci","foobarbum");
+            options.put("regid",regid);
+            httpWrapper.sendPost("http://scubbo.org:2020/actions/register.py",options);
         } else {
             mDisplay.setText("you do not have play services");
         }
