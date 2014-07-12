@@ -11,8 +11,11 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.scubbo.mtgMatcher.R;
+import com.scubbo.mtgMatcher.http.Callbackable;
 import com.scubbo.mtgMatcher.http.HttpWrapper;
 import com.scubbo.mtgMatcher.registration.GCMRegistrationHelper;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -65,7 +68,41 @@ public class MainActivity extends Activity {
         options.put("name",name);
         options.put("dciNumber",dciNum);
         options.put("regId",regid);
-        httpWrapper.sendPost("http://scubbo.org:2020/actions/public/registerUser.py",options);
+
+        Callbackable callbackable = new Callbackable<String,Void>() {
+            protected Void operate(String val) {
+                callbackRegistration(val);
+                return null;
+            }
+        };
+
+        findViewById(R.id.ProgressBar).setVisibility(View.VISIBLE);
+        httpWrapper.sendPost("http://scubbo.org:2020/actions/public/registerPlayer.py",options, callbackable);
+    }
+
+    public void callbackRegistration(String backendResponse) {
+        findViewById(R.id.ProgressBar).setVisibility(View.INVISIBLE);
+        Log.i(TAG,"backendResponse was callbacked as " + backendResponse);
+        TextView logView = (TextView) findViewById(R.id.loggerView);
+        JSONObject jsonResponse = null;
+        try {
+            jsonResponse = new JSONObject(backendResponse);
+            if (jsonResponse.getString("status").equals("failure")) { //TODO: Boooo, you should classify this
+                if (jsonResponse.getString("code").equals("alreadyRegistered")) {
+                    logView.setText("Sorry, you're already registered as " + jsonResponse.getJSONObject("data").get("name") + " with DCI Number " + jsonResponse.getJSONObject("data").get("dciNumber"));
+                } else {
+                    logView.setText("An unknown error occured. Response dump: " + jsonResponse.toString());
+                }
+            } else if (jsonResponse.getString("status").equals("success")) {
+                logView.setText("Success! You are now registered");
+            }
+        } catch (JSONException e) {
+            Log.i(TAG,"Something went wrong in parsing the backendResponse");
+            logView.setText(e.getMessage());
+            e.printStackTrace();
+        }
+
+
     }
 
     // You need to do the Play Services APK check here too.

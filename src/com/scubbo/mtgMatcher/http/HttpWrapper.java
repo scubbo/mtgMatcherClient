@@ -28,19 +28,19 @@ import java.util.concurrent.Callable;
 public class HttpWrapper {
     private static final String TAG = "GCMDemo";
 
-    public void sendPost(String url, Map<String, String> data) {
-        new AsyncTask() {
+    public void sendPost(String url, Map<String, String> data, final Callbackable<Object, Object> callbackable) {
+        new AsyncTask<Object, Void, String>() {
 
             @Override
-            protected Object doInBackground(Object[] objects) {
+            protected String doInBackground(Object[] objects) {
                 String url = (String) objects[0];
-                Map<String,String> data = (HashMap<String,String>) objects[1];
+                Map<String, String> data = (HashMap<String, String>) objects[1];
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpPost httppost = new HttpPost(url);
 
                 List<NameValuePair> params = new ArrayList<NameValuePair>(data.size());
-                for (Map.Entry<String,String> entry: data.entrySet()) {
-                    params.add(new BasicNameValuePair(entry.getKey(),entry.getValue()));
+                for (Map.Entry<String, String> entry : data.entrySet()) {
+                    params.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
                 }
 
                 try {
@@ -78,20 +78,29 @@ public class HttpWrapper {
                             e.printStackTrace();
                         }
                     }
-                    Log.i(TAG,sb.toString());
+                    return sb.toString();
+
                 } catch (IOException e) {
                     Log.i(TAG, String.valueOf(e.getStackTrace()));
                     e.printStackTrace();
+                    return null; //necessary for signature
                 }
-                return null;
             }
 
             @Override
-            protected void onPostExecute(Object response) {
-                return;
+            protected void onPostExecute(String response) {
+                try {
+                    callbackable.pass(response).call();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
         }.execute(url, data);
-
     }
+
+    public void sendPost(String url, Map<String, String> data) {
+        sendPost(url,data,Callbackable.getNullCallbackable(String.class,Integer.class));
+    }
+
 }

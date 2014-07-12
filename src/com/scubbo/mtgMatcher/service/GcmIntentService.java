@@ -50,8 +50,8 @@ public class GcmIntentService extends IntentService {
             } else if (GoogleCloudMessaging.
                     MESSAGE_TYPE_MESSAGE.equals(messageType)) {
                 // Post notification of received message.
-                String favCard = extras.getString("myFavouriteCard");
-                sendNotification("My favourite card is: " + favCard);
+                String message = extras.getString("message");
+                sendNotification("Received message" + message);
             }
         }
         // Release the wake lock provided by the WakefulBroadcastReceiver.

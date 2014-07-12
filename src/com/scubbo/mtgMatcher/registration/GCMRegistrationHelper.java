@@ -102,6 +102,7 @@ public class GCMRegistrationHelper {
                         gcm = GoogleCloudMessaging.getInstance(context);
                     }
                     regid = gcm.register(SENDER_ID);
+                    Log.i(TAG,"Registered with GCM - regId " + regid);
 
                     // Persist the regID - no need to register again.
                     storeRegistrationId(regid);
