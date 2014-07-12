@@ -14,7 +14,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:visibility="invisible"
             android:id="@+id/nameEntryDiv">
         <EditText
             android:layout_alignParentLeft="true"
@@ -23,10 +22,19 @@
             android:layout_weight="1"
             android:hint="Please enter your name"
             android:id="@+id/nameEntry"/>
+        <EditText
+            android:layout_alignParentLeft="true"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Please enter your DCI Number"
+            android:id="@+id/dciEntry"/>
         <Button
             android:layout_width="80dp"
             android:layout_height="50dp"
-            android:text="Go!"/>
+            android:text="Go!"
+            android:onClick="submitRegistration"
+            android:id="@+id/nameEntryButton"/>
      </LinearLayout>
 
     <TextView

@@ -11,12 +11,16 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 /**
  * Created by jackjack on 28/06/2014.
@@ -47,15 +51,46 @@ public class HttpWrapper {
                 }
 
                 //Execute and get the response.
-                HttpResponse response = null;
                 try {
-                    response = httpclient.execute(httppost);
+                    HttpResponse response = httpclient.execute(httppost);
+
+                    InputStream is = null;
+                    try {
+                        is = response.getEntity().getContent();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+                    StringBuilder sb = new StringBuilder();
+
+                    String line = null;
+                    try {
+                        while ((line = reader.readLine()) != null) {
+                            sb.append(line + "\n");
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            is.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    Log.i(TAG,sb.toString());
                 } catch (IOException e) {
                     Log.i(TAG, String.valueOf(e.getStackTrace()));
                     e.printStackTrace();
                 }
                 return null;
             }
+
+            @Override
+            protected void onPostExecute(Object response) {
+                return;
+            }
+
         }.execute(url, data);
 
     }
