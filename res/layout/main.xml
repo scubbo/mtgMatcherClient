@@ -1,53 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-        >
-    <TextView
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+        android:id="@+id/mainLinearLayout">
+    <android.support.v4.view.ViewPager
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Hello and welcome to mtgMatcher"
-            />
+            android:layout_height="fill_parent"
+            android:id="@+id/mainViewPager">
+        <android.support.v4.view.PagerTabStrip
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:id="@+id/mainViewPagerTabs">
+        </android.support.v4.view.PagerTabStrip>
+    </android.support.v4.view.ViewPager>
 
-    <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/nameEntryDiv">
-        <EditText
-            android:layout_alignParentLeft="true"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Please enter your name"
-            android:id="@+id/nameEntry"/>
-        <EditText
-            android:layout_alignParentLeft="true"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Please enter your DCI Number"
-            android:id="@+id/dciEntry"/>
-        <Button
-            android:layout_width="80dp"
-            android:layout_height="50dp"
-            android:text="Go!"
-            android:onClick="submitRegistration"
-            android:id="@+id/nameEntryButton"/>
-     </LinearLayout>
-
-    <ProgressBar android:id="@+id/ProgressBar"
-             android:layout_width="wrap_content" android:layout_height="wrap_content"
-             android:indeterminate="true" android:indeterminateOnly="true"
-             android:isScrollContainer="true" android:layout_x="100dip"
-             android:layout_y="10dip" android:soundEffectsEnabled="true"
-             android:visibility="invisible"
-            />
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/loggerView" />
 </LinearLayout>
-

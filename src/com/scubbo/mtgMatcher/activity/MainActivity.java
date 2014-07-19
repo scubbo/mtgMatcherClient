@@ -39,9 +39,9 @@ public class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        //setContentView(R.layout.main);
 
-        mDisplay = (TextView) findViewById(R.id.loggerView);
+        //mDisplay = (TextView) findViewById(R.id.loggerView);
 
         context = getApplicationContext();
 
@@ -83,22 +83,22 @@ public class MainActivity extends Activity {
     public void callbackRegistration(String backendResponse) {
         findViewById(R.id.ProgressBar).setVisibility(View.INVISIBLE);
         Log.i(TAG,"backendResponse was callbacked as " + backendResponse);
-        TextView logView = (TextView) findViewById(R.id.loggerView);
+        //TextView logView = (TextView) findViewById(R.id.loggerView);
         JSONObject jsonResponse = null;
         try {
             jsonResponse = new JSONObject(backendResponse);
             if (jsonResponse.getString("status").equals("failure")) { //TODO: Boooo, you should classify this
                 if (jsonResponse.getString("code").equals("alreadyRegistered")) {
-                    logView.setText("Sorry, you're already registered as " + jsonResponse.getJSONObject("data").get("name") + " with DCI Number " + jsonResponse.getJSONObject("data").get("dciNumber"));
+                    //logView.setText("Sorry, you're already registered as " + jsonResponse.getJSONObject("data").get("name") + " with DCI Number " + jsonResponse.getJSONObject("data").get("dciNumber"));
                 } else {
-                    logView.setText("An unknown error occured. Response dump: " + jsonResponse.toString());
+                    //logView.setText("An unknown error occured. Response dump: " + jsonResponse.toString());
                 }
             } else if (jsonResponse.getString("status").equals("success")) {
-                logView.setText("Success! You are now registered");
+                //logView.setText("Success! You are now registered");
             }
         } catch (JSONException e) {
             Log.i(TAG,"Something went wrong in parsing the backendResponse");
-            logView.setText(e.getMessage());
+//            logView.setText(e.getMessage());
             e.printStackTrace();
         }
 
